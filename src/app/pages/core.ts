@@ -1,26 +1,27 @@
-import { Provider } from "@angular/core";
+import { Provider } from '@angular/core';
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
-} from "@angular/material-moment-adapter";
+} from '@angular/material-moment-adapter';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
-} from "@angular/material/core";
+} from '@angular/material/core';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
-} from "@angular/material/form-field";
-import ApiService from "@services/api.service";
-import AuthService from "@services/auth.service";
-import ClassMapperService from "@services/class-mapper.service";
-import DialogService from "@services/dialog.service";
-import NavigationService from "@services/navigation.service";
-import UserService from "@services/user.service";
+} from '@angular/material/form-field';
+import ApiService from '@services/api.service';
+import AuthService from '@services/auth.service';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import NavigationService from '@services/navigation.service';
+import ResponsiveService from '@services/responsive.service';
+import UserService from '@services/user.service';
 
 const appearance: MatFormFieldDefaultOptions = {
-  appearance: "outline",
+  appearance: 'outline',
 };
 
 function provideCore(): Provider[] {
@@ -29,7 +30,7 @@ function provideCore(): Provider[] {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: appearance,
     },
-    { provide: MAT_DATE_LOCALE, useValue: "es-ES" },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -42,6 +43,7 @@ function provideCore(): Provider[] {
     DialogService,
     ClassMapperService,
     NavigationService,
+    ResponsiveService,
   ];
 }
 export default provideCore;

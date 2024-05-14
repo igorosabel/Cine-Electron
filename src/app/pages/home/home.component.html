@@ -1,83 +1,49 @@
-<mat-sidenav-container class="container">
-	<mat-sidenav class="sidebar"
-				 #sidenav
-				 [(opened)]="opened">
-		<mat-toolbar color="primary">
-			<mat-toolbar-row>
-				<span>Cines</span>
-			</mat-toolbar-row>
-		</mat-toolbar>
-		<mat-nav-list>
-			@for (cinema of cinemas(); track cinema.id) {
-			<a mat-list-item
-			   [routerLink]="['/cinema', cinema.id, cinema.slug]">
-				<mat-icon matListIcon>local_movies</mat-icon>
-				{{cinema.name}}
+<app-sidenav #sidenav>
+	<mat-toolbar color="primary">
+		<mat-toolbar-row>
+			@if (showMenu()) {
+			<button mat-icon-button
+					(click)="toggleSidenav()">
+				<mat-icon>menu</mat-icon>
+			</button>
+			}
+			<span class="spacer">Cine</span>
+		</mat-toolbar-row>
+	</mat-toolbar>
+
+	@if (loading()) {
+	<div class="loading">Cargando...</div>
+	}
+
+	@if (!loading() && !loadError()) {
+	<mat-nav-list>
+		<app-movie-list [movies]="movies()" />
+		@if (page() < numPages())
+		  {
+		  <a
+		  mat-list-item
+		  (click)="getMovies($event)"
+		  class="load-more">
+			<mat-icon>keyboard_arrow_down</mat-icon>
+			Cargar más
 			</a>
 			}
-			<a mat-list-item
-			   routerLink="/cinemas">
-				<mat-icon matListIcon>edit</mat-icon>
-				Editar cines
-			</a>
-			<a mat-list-item
-			   routerLink="/search">
-				<mat-icon matListIcon>search</mat-icon>
-				Buscar
-			</a>
-			<a mat-list-item
-			   (click)="logout($event)">
-				<mat-icon matListIcon>power_settings_new</mat-icon>
-				Salir
-			</a>
-		</mat-nav-list>
-	</mat-sidenav>
+			@if (movies().length === 0) {
+			<mat-list-item>
+				¡Todavía no hay ninguna película! Añade la primera pulsando el icono "+".
+			</mat-list-item>
+			}
+	</mat-nav-list>
+	}
 
-	<mat-sidenav-content>
-		<mat-toolbar color="primary">
-			<mat-toolbar-row>
-				<button mat-icon-button
-						(click)="toggleSidenav()">
-					<mat-icon>menu</mat-icon>
-				</button>
-				<span class="spacer">Cine</span>
-			</mat-toolbar-row>
-		</mat-toolbar>
+	@if (!loading() && loadError()) {
+	<div class="loading">Ocurrió un error al cargar las películas.</div>
+	}
 
-		@if (loading()) {
-		<div class="loading">Cargando...</div>
-		}
-
-		@if (!loading() && !loadError()) {
-		<mat-nav-list>
-			<app-movie-list [movies]="movies()" />
-			@if (page() < numPages())
-			  {
-			  <a
-			  mat-list-item
-			  (click)="getMovies($event)"
-			  class="load-more">
-				<mat-icon>keyboard_arrow_down</mat-icon>
-				Cargar más
-				</a>
-				}
-				@if (movies().length === 0) {
-				<mat-list-item>
-					¡Todavía no hay ninguna película! Añade la primera pulsando el icono "+".
-				</mat-list-item>
-				}
-		</mat-nav-list>
-		}
-
-		@if (!loading() && loadError()) {
-		<div class="loading">Ocurrió un error al cargar las películas.</div>
-		}
-
-		<button mat-fab
-				class="btn-bottom-right"
-				routerLink="/add-movie"
-				[disabled]="loadError()">
-			<mat-icon>add</mat-icon>
-		</button>
-	</mat-sidenav-content>
-</mat-sidenav-container>
+	<button mat-fab
+			class="btn-bottom-right"
+			routerLink="/add-movie"
+			[disabled]="loadError()">
+		<mat-icon>add</mat-icon>
+	</button>
+</app-sidenav>

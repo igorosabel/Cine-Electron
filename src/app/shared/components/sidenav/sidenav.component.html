@@ -1,0 +1,40 @@
+<mat-drawer-container class="container"
+                      [hasBackdrop]="backdrop()">
+    <mat-drawer class="sidebar"
+                mode="push"
+                [opened]="opened()">
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <span>Cines</span>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-nav-list>
+            @for (cinema of cinemas(); track cinema.id) {
+            <a mat-list-item
+               [routerLink]="['/cinema', cinema.id, cinema.slug]">
+                <mat-icon matListIcon>local_movies</mat-icon>
+                {{cinema.name}}
+            </a>
+            }
+            <a mat-list-item
+               routerLink="/cinemas">
+                <mat-icon matListIcon>edit</mat-icon>
+                Editar cines
+            </a>
+            <a mat-list-item
+               routerLink="/search">
+                <mat-icon matListIcon>search</mat-icon>
+                Buscar
+            </a>
+            <a mat-list-item
+               (click)="logout($event)">
+                <mat-icon matListIcon>power_settings_new</mat-icon>
+                Salir
+            </a>
+        </mat-nav-list>
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <ng-content></ng-content>
+    </mat-drawer-content>
+</mat-drawer-container>

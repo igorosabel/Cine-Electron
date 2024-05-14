@@ -1,15 +1,15 @@
 <app-sidenav #sidenav>
+	@if (showMenu()) {
 	<mat-toolbar color="primary">
 		<mat-toolbar-row>
-			@if (showMenu()) {
 			<button mat-icon-button
 					(click)="toggleSidenav()">
 				<mat-icon>menu</mat-icon>
 			</button>
-			}
 			<span class="spacer">Cine</span>
 		</mat-toolbar-row>
 	</mat-toolbar>
+	}
 
 	@if (loading()) {
 	<div class="loading">Cargando...</div>

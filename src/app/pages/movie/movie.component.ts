@@ -1,42 +1,43 @@
-import { NgClass, NgOptimizedImage } from "@angular/common";
+import { NgClass, NgOptimizedImage } from '@angular/common';
 import {
   Component,
   OnInit,
   WritableSignal,
   inject,
   signal,
-} from "@angular/core";
-import { MatIconButton } from "@angular/material/button";
+} from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import {
   MatCard,
   MatCardContent,
   MatCardHeader,
   MatCardTitle,
-} from "@angular/material/card";
-import { MatIcon } from "@angular/material/icon";
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 import {
   MatList,
   MatListItem,
   MatListItemLine,
   MatListItemMeta,
+  MatListItemTitle,
   MatNavList,
-} from "@angular/material/list";
-import { MatToolbar, MatToolbarRow } from "@angular/material/toolbar";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { MovieResult, NavigationFromType } from "@interfaces/interfaces";
-import Cinema from "@model/cinema.model";
-import Movie from "@model/movie.model";
-import ApiService from "@services/api.service";
-import ClassMapperService from "@services/class-mapper.service";
-import DialogService from "@services/dialog.service";
-import NavigationService from "@services/navigation.service";
-import CinemaNamePipe from "@shared/pipes/cinema-name.pipe";
+} from '@angular/material/list';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MovieResult, NavigationFromType } from '@interfaces/interfaces';
+import Cinema from '@model/cinema.model';
+import Movie from '@model/movie.model';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import NavigationService from '@services/navigation.service';
+import CinemaNamePipe from '@shared/pipes/cinema-name.pipe';
 
 @Component({
   standalone: true,
-  selector: "app-movie",
-  templateUrl: "./movie.component.html",
-  styleUrls: ["./movie.component.scss"],
+  selector: 'app-movie',
+  templateUrl: './movie.component.html',
+  styleUrls: ['./movie.component.scss'],
   imports: [
     NgClass,
     CinemaNamePipe,
@@ -51,6 +52,7 @@ import CinemaNamePipe from "@shared/pipes/cinema-name.pipe";
     MatList,
     MatNavList,
     MatListItem,
+    MatListItemTitle,
     MatListItemLine,
     MatListItemMeta,
     NgOptimizedImage,
@@ -68,17 +70,17 @@ export default class MovieComponent implements OnInit {
   selectedCinema: WritableSignal<Cinema | null> = signal<Cinema>(new Cinema());
   movie: WritableSignal<Movie> = signal<Movie>(new Movie());
   showCover: WritableSignal<boolean> = signal<boolean>(false);
-  movieCover: string = "";
+  movieCover: string = '';
 
   ngOnInit(): void {
     this.cinemas.set(this.ns.getCinemas());
     if (this.cinemas().length == 0) {
-      this.router.navigate(["/home"]);
+      this.router.navigate(['/home']);
     }
     this.activatedRoute.params.subscribe((params: Params): void => {
-      const id: number = params["id"];
+      const id: number = params['id'];
       this.as.getMovie(id).subscribe((result: MovieResult): void => {
-        if (result.status == "ok") {
+        if (result.status == 'ok') {
           const movie: Movie = this.cms.getMovie(result.movie);
           const idCinema: number | null = movie.idCinema;
           if (idCinema !== null) {
@@ -89,24 +91,24 @@ export default class MovieComponent implements OnInit {
           }
 
           const fromMovie: NavigationFromType = [
-            "/movie",
+            '/movie',
             movie.id,
             movie.slug,
           ];
           const lastItem: NavigationFromType = this.ns.getLast();
-          if (lastItem.join("") != fromMovie.join("")) {
+          if (lastItem.join('') != fromMovie.join('')) {
             this.ns.add(fromMovie);
           }
           this.movie.set(movie);
         } else {
           this.dialog
             .alert({
-              title: "Error",
-              content: "No se ha encontrado la película indicada.",
-              ok: "Continuar",
+              title: 'Error',
+              content: 'No se ha encontrado la película indicada.',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
-              this.router.navigate(["/home"]);
+              this.router.navigate(['/home']);
             });
         }
       });
@@ -125,7 +127,7 @@ export default class MovieComponent implements OnInit {
 
   selectCinema(): void {
     this.router.navigate([
-      "/cinema",
+      '/cinema',
       this.selectedCinema()?.id,
       this.selectedCinema()?.slug,
     ]);

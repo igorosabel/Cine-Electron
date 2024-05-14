@@ -1,18 +1,22 @@
-<mat-toolbar color="primary">
-	<mat-toolbar-row>
-		<button mat-icon-button
-				(click)="back()">
-			<mat-icon>arrow_back</mat-icon>
-		</button>
-		<span>{{cinema().name}}</span>
-	</mat-toolbar-row>
-</mat-toolbar>
+<app-sidenav #sidenav>
+	<mat-toolbar color="primary">
+		<mat-toolbar-row>
+			@if (showMenu()) {
+			<button mat-icon-button
+					(click)="back()">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+			}
+			<span>{{cinema().name}}</span>
+		</mat-toolbar-row>
+	</mat-toolbar>
 
-<mat-nav-list>
-	<app-movie-list [movies]="movies()" />
-	@if (movies().length === 0) {
-	<mat-list-item>
-		¡Todavía no hay ninguna película!
-	</mat-list-item>
-	}
-</mat-nav-list>
+	<mat-nav-list>
+		<app-movie-list [movies]="movies()" />
+		@if (movies().length === 0) {
+		<mat-list-item>
+			¡Todavía no hay ninguna película!
+		</mat-list-item>
+		}
+	</mat-nav-list>
+</app-sidenav>

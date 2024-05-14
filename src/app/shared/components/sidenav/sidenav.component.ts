@@ -50,7 +50,6 @@ export default class SidenavComponent implements OnInit {
   ngOnInit(): void {
     this.cinemas.set(this.ns.getCinemas());
     this.rs.screenWidth$.subscribe((value: number | null): void => {
-      console.log(value);
       this.backdrop.set(false);
       this.opened.set(true);
       if (value !== null && value < ResponsiveService.SM) {

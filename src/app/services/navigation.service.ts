@@ -1,13 +1,16 @@
-import { Injectable } from "@angular/core";
-import { NavigationFromType } from "@interfaces/interfaces";
-import Cinema from "@model/cinema.model";
+import { Injectable, inject } from '@angular/core';
+import { CinemaInterface, NavigationFromType } from '@interfaces/interfaces';
+import Cinema from '@model/cinema.model';
+import ClassMapperService from './class-mapper.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export default class NavigationService {
+  private cms: ClassMapperService = inject(ClassMapperService);
   private from: NavigationFromType[] = [];
   private cinemas: Cinema[] = [];
+  private cinemasLoaded: boolean = false;
 
   get(): NavigationFromType {
     if (this.from.length > 0) {
@@ -35,11 +38,28 @@ export default class NavigationService {
   }
 
   getCinemas(): Cinema[] {
+    if (!this.cinemasLoaded) {
+      const data: string | null = localStorage.getItem('cinemas');
+      if (data !== null) {
+        const dataObj: CinemaInterface[] = JSON.parse(data);
+        this.cinemas = dataObj.map((c: CinemaInterface): Cinema => {
+          return this.cms.getCinema(c);
+        });
+      }
+      this.cinemasLoaded;
+    }
     return this.cinemas;
   }
 
   setCinemas(cinemas: Cinema[]): void {
     this.cinemas = cinemas;
+    const data: string = JSON.stringify(
+      this.cinemas.map((c: Cinema): CinemaInterface => {
+        return c.toInterface();
+      })
+    );
+    localStorage.setItem('cinemas', data);
+    this.cinemasLoaded = true;
   }
 
   getCinema(id: number): Cinema | null {

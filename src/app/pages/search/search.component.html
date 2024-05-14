@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<button mat-icon-button
+				routerLink="/home">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<span>Buscar</span>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<div class="search-box">
+	<mat-form-field class="wide">
+		<mat-label>Nombre de la película</mat-label>
+		<input matInput
+			   [(ngModel)]="q"
+			   name="q"
+			   (keyup)="searchMovieStart()"
+			   #searchBox>
+		@if (searching()) {
+		<img src="/assets/loading.svg"
+			 class="searching"
+			 alt="">
+		}
+	</mat-form-field>
+</div>
+
+@if (movies.length === 0) {
+<div class="start-message">Introduce el título de una película para empezar a buscar.</div>
+}
+
+@if (movies.length) {
+<mat-nav-list>
+	<app-movie-list [movies]="movies()" />
+</mat-nav-list>
+}

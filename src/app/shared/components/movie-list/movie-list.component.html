@@ -1,0 +1,11 @@
+@for (movie of movies(); track movie.id) {
+<a mat-list-item
+   [routerLink]="['/movie', movie.id, movie.slug]">
+	<img matListItemAvatar
+		 src="{{movie.cover}}"
+		 [alt]="movie.name">
+	<div matListItemTitle> {{movie.name }} </div>
+	<div matListItemLine>{{movie.idCinema | cinemaName}}</div>
+	<div matListItemLine>{{movie.date }}</div>
+</a>
+}

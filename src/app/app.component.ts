@@ -4,10 +4,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
+  template: '<router-outlet />',
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
 })
-export default class AppComponent {
-  title = 'Cine-Electron';
-}
+export default class AppComponent {}

@@ -1,0 +1,54 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<span>Cine</span>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<form name="frm-login"
+	  (ngSubmit)="doLogin($event)">
+	<mat-card class="center-card">
+		<mat-card-header>
+			<mat-card-title>Iniciar sesión</mat-card-title>
+		</mat-card-header>
+		<mat-card-content class="center-card-fields">
+			<mat-form-field>
+				<mat-label>Nombre de usuario</mat-label>
+				<input matInput
+					   [(ngModel)]="loginData.name"
+					   [disabled]="loginSending()"
+					   required
+					   name="name">
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Contraseña</mat-label>
+				<input matInput
+					   type="password"
+					   [(ngModel)]="loginData.pass"
+					   [disabled]="loginSending()"
+					   required
+					   name="pass">
+			</mat-form-field>
+			@if (loginError()) {
+			<fieldset class="center-card-error">
+				<legend>Error</legend>
+				El nombre de usuario o contraseña son incorrectos.
+			</fieldset>
+			}
+		</mat-card-content>
+		<mat-card-actions class="center-card-buttons">
+			<a routerLink="/register"
+			   mat-button
+			   [disabled]="loginSending()">Regístrate</a>
+			<button mat-raised-button
+					color="primary"
+					[disabled]="loginSending()"
+					type="submit">
+				@if (loginSending()) {
+				<img src="/assets/loading.svg"
+					 alt="">
+				}
+				Continuar
+			</button>
+		</mat-card-actions>
+	</mat-card>
+</form>

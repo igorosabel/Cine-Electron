@@ -1,0 +1,131 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<button routerLink="/home"
+				mat-icon-button>
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<span>Añadir película</span>
+		<span class="flex-space"></span>
+		<button mat-icon-button
+				(click)="saveMovie()"
+				[disabled]="sending()">
+			@if (!sending()) {
+			<mat-icon>check</mat-icon>
+			}
+			@else {
+			<img src="/assets/loading.svg"
+				 class="sending"
+				 alt="">
+			}
+		</button>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card class="big-card">
+	<mat-card-content>
+		<div class="add-movie-info">
+			<div class="image-box">
+				<img class="add-movie-cover"
+					 [src]="movie.cover">
+				<input type="file"
+					   name="cover"
+					   id="cover"
+					   value=""
+					   (change)="onCoverChange($event)">
+				<button mat-raised-button
+						color="primary"
+						(click)="uploadCover()">
+					@if (uploadingCover()) {
+					<img src="/assets/loading.svg"
+						 alt="">
+					}
+					Añadir carátula
+				</button>
+			</div>
+			<div class="movie-info">
+				<mat-form-field>
+					<mat-label>Nombre</mat-label>
+					<input matInput
+						   [(ngModel)]="movie.name"
+						   required
+						   name="name"
+						   (keyup)="searchMovieStart()">
+					@if (searching()) {
+					<img src="/assets/loading.svg"
+						 class="searching"
+						 alt="">
+					}
+				</mat-form-field>
+				@if (searchResults.length>0) {
+				<div class="search-results">
+					<div class="search-results-header">
+						<span>Resultados de la búsqueda</span>
+						<button mat-icon-button
+								(click)="closeSearchResults()">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
+					<mat-action-list>
+						@for (result of searchResults(); track result.id) {
+						<button mat-list-item
+								(click)="selectResult(result)">
+							<img matListItemAvatar
+								 src="{{result.poster}}"
+								 alt="{{result.title}}">
+							<div matListItemTitle
+								 class="search-result-item"> {{result.title}} </div>
+						</button>
+						}
+					</mat-action-list>
+				</div>
+				}
+				<mat-form-field>
+					<mat-select placeholder="Elige cine"
+								[(ngModel)]="movie.idCinema">
+						@for (cinema of cinemas(); track cinema.id) {
+						<mat-option [value]="cinema.id">
+							{{cinema.name}}
+						</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>URL IMDB</mat-label>
+					<input matInput
+						   [(ngModel)]="movie.imdbUrl"
+						   name="imdbUrl">
+				</mat-form-field>
+				<mat-form-field>
+					<input matInput
+						   [matDatepicker]="picker"
+						   placeholder="Elige fecha"
+						   [(ngModel)]="movie.date">
+					<mat-datepicker-toggle matSuffix
+										   [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker touchUi
+									#picker></mat-datepicker>
+				</mat-form-field>
+			</div>
+		</div>
+		<hr class="divider">
+		<p>Entrada</p>
+		<div class="image-box">
+			<img class="add-movie-ticket"
+				 [src]="movie.ticket">
+			<input type="file"
+				   name="ticket"
+				   id="ticket"
+				   value=""
+				   (change)="onTicketChange($event)">
+			<button mat-raised-button
+					color="primary"
+					(click)="uploadTicket()">
+				@if (uploadingTicket()) {
+				<img src="/assets/loading.svg"
+					 alt="">
+				}
+				Añadir entrada
+			</button>
+		</div>
+	</mat-card-content>
+</mat-card>

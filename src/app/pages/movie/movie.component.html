@@ -1,0 +1,59 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<button mat-icon-button
+				(click)="back()">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<span>{{movie().name}}</span>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card class="big-card">
+	<mat-card-header>
+		<mat-card-title>{{movie().name}}</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="movie-cover"
+			 (click)="openCover()"
+			 [ngClass]="{'movie-cover-full':showCover()}">
+			@if (movie().cover !== null) {
+			<img [ngSrc]="movieCover"
+				 [alt]="movie.name"
+				 width="300"
+				 height="450"
+				 priority>
+			}
+		</div>
+		<mat-nav-list>
+			<mat-list-item (click)="selectCinema()">
+				<div matListItemLine
+					 class="detail-text"><strong>Cine</strong>:</div>
+				<div matListItemLine
+					 class="detail-text">{{movie().idCinema | cinemaName}}</div>
+				<button mat-icon-button
+						matListItemMeta>
+					<mat-icon>chevron_right</mat-icon>
+				</button>
+			</mat-list-item>
+			<a mat-list-item
+			   [href]="movie().imdbUrl"
+			   target="_blank">
+				<div matListItemLine><strong>IMDB</strong>:</div>
+				<div matListItemLine>{{movie().imdbUrl}}</div>
+			</a>
+		</mat-nav-list>
+		<mat-list>
+			<mat-list-item class="md-2-line">
+				<div matListItemLine><strong>Fecha</strong>:</div>
+				<div matListItemLine>{{movie().date}}</div>
+			</mat-list-item>
+		</mat-list>
+		<hr>
+		<p>
+			<strong>Entrada</strong>
+		</p>
+		<img class="movie-ticket"
+			 [src]="movie().ticket"
+			 [alt]="movie().name">
+	</mat-card-content>
+</mat-card>

@@ -1,0 +1,21 @@
+.search-box {
+	margin: 16px 16px 0 16px;
+	border-bottom: 1px solid #ccc;
+
+	.wide {
+		width: 100%;
+		position: relative;
+		
+		.searching {
+			position: absolute;
+			right: 0;
+			width: 32px;
+			top: 4px;
+		}
+	}
+}
+
+.start-message {
+	padding-top: 16px;
+    text-align: center;
+}

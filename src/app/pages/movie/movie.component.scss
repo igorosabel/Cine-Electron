@@ -1,0 +1,23 @@
+.movie-cover {
+	cursor: pointer;
+	max-height: 200px;
+	overflow: hidden;
+	transition: max-height .8s;
+
+	& > img {
+		display: block;
+		margin: 0 auto;
+		max-height: 600px;
+	}
+}
+
+.movie-cover-full {
+	max-height: 600px;
+}
+
+.movie-ticket {
+	display: block;
+	margin: 0 auto;
+	max-height: 300px;
+	max-width: 100%;
+}

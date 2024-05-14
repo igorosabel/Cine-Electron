@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<button routerLink="/home"
+				mat-icon-button>
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<span>Cines</span>
+	</mat-toolbar-row>
+</mat-toolbar>
+
+<mat-nav-list>
+	@for (cinema of cinemas(); track cinema.id) {
+	<a mat-list-item
+	   [routerLink]="['/edit-cinema', cinema.id, cinema.slug]">
+		<mat-icon matListIcon>local_movies</mat-icon>
+		{{ cinema.name }}
+	</a>
+	}
+	@empty {
+	<mat-list-item>
+		¡Todavía no hay ningún cine! Añade el primero pulsando el icono "+".
+	</mat-list-item>
+	}
+</mat-nav-list>
+
+<button mat-fab
+		class="btn-bottom-right"
+		(click)="addCinema()">
+	<mat-icon>add</mat-icon>
+</button>
